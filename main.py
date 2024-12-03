@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Path,HTTPException
+from fastapi import FastAPI, Path, HTTPException
 from typing import Annotated
 
 app = FastAPI()
 
-users = {'1': 'Имя: Example, возраст: 18'}
+users = {1: {"имя": "Example", "age": 20}
+         }
 
 
 @app.get("/users")
@@ -14,8 +15,8 @@ async def read_users() -> dict:
 @app.post("/user/{username}/{age}")
 async def create_users(username: str = Path(min_length=3, max_length=9, example="Igor"),
                        age: int = Path(ge=0, le=99, example="2")) -> str:
-    current_index = str(int(max(users, key=int)) + 1)
-    users[current_index] = f"Имя:{username},возраст:{age}"
+    current_index:str = str(int(max(users, key=int)) + 1)
+    users[current_index] = {"Имя": username, "возраст": age}
     return f"User {current_index} is registered"
 
 
